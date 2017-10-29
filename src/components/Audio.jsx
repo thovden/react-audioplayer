@@ -73,7 +73,8 @@ class Audio extends React.PureComponent {
       controlStates,
       controlCallbacks,
       timelineStates,
-      timelineCallbacks
+      timelineCallbacks, 
+      playlistIndex
     } = this.props;
     const height = fullPlayer ? this.props.height : 52;
     const newStyle = Object.assign({}, {

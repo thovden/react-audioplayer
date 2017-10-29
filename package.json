@@ -27,7 +27,7 @@
     "test-s": "jest --silent",
     "start": "NODE_ENV=development webpack-dev-server --config ./webpack/webpack.config.babel.js --progress",
     "prebuild": "yarn run clean",
-    "build": "NODE_ENV=production webpack  --config ./webpack/webpack.config.babel.js --progress --display-modules",
+    "build": "webpack  --config ./webpack/webpack.config.babel.js --progress --display-modules",
     "clean": "rimraf ./build && mkdir build",
     "lint": "./node_modules/.bin/eslint 'src/**/*.@(js|jsx)'"
   },

@@ -42,6 +42,7 @@ const HOCAudio = (Audio) => {
       // this.onTimeUpdate = this.onTimeUpdate.bind(this);
       this.setVolume = this.setVolume.bind(this);
       this.setProgress = this.setProgress.bind(this);
+      this.setPlaylistIndex = this.setPlaylistIndex.bind(this);
       this.skipToNext = this.skipToNext.bind(this);
       this.skipToPrevious = this.skipToPrevious.bind(this);
       this.togglePlayingState = this.togglePlayingState.bind(this);
@@ -152,6 +153,15 @@ const HOCAudio = (Audio) => {
       this.audioElement.volume = volume;
       this.setState({ volume });
     }
+    setPlaylistIndex(index) {
+      console.log('Playlist index', index);
+      this.setState(currentState => ({
+        ...currentState,
+        currentPlaylistPos: index
+      }), () => {
+        this.loadSrc();
+      });
+    }
     setProgress(newProgress) {
       let progress = newProgress;
       const duration = this.audioElement.duration;
@@ -174,14 +184,16 @@ const HOCAudio = (Audio) => {
       if (this.state.currentPlaylistPos < this.props.playlist.length) {
         this.audioElement.src = this.props.playlist[this.state.currentPlaylistPos].src;
         this.audioElement.load();
+  
+        const offset = this.props.playlist[this.state.currentPlaylistPos].offset || 0;
+        if (offset) {
+          this.setProgress(offset);
+        }
+  
         if (this.playNext) {
           this.audioElement.play();
-          const offset = this.props.playlist[this.state.currentPlaylistPos].offset;  
-          if (offset) {
-            this.setProgress(offset)            
-          }
         }
-        this.setState({ progress: 0 });
+        this.setState({ progress: offset });
         this._clearInterval();
       }
     }
@@ -269,6 +281,10 @@ const HOCAudio = (Audio) => {
 
     skipToPreviousEventHandler() {
       this.skipToPrevious();
+    }
+
+    playAtIndexHandler() {
+      this.setPlaylistIndex(this.props);
     }
 
     componentDidMount() {
