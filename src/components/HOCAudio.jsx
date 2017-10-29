@@ -176,6 +176,10 @@ const HOCAudio = (Audio) => {
         this.audioElement.load();
         if (this.playNext) {
           this.audioElement.play();
+          const offset = this.props.playlist[this.state.currentPlaylistPos].offset;  
+          if (offset) {
+            this.setProgress(offset)            
+          }
         }
         this.setState({ progress: 0 });
         this._clearInterval();
